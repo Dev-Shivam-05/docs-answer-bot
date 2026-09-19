@@ -1,0 +1,5 @@
+node_modules/
+# Hugging Face model cache (downloaded on first run, ~90 MB)
+.cache/
+.env
+*.log

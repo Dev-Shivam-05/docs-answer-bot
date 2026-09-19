@@ -1,0 +1,30 @@
+{
+  "name": "docs-answer-bot",
+  "version": "0.1.0",
+  "description": "Small RAG demo: answers questions about GitHub Actions from a local copy of GitHub Docs, refuses when the answer is not in the documents. Local embeddings, optional Gemini, n8n Telegram workflow.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "author": "Shivam Bhadoriya",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "fetch-corpus": "tsx scripts/fetch-corpus.ts",
+    "index": "tsx scripts/build-index.ts",
+    "eval": "tsx eval/run-eval.ts",
+    "ask": "tsx scripts/ask.ts",
+    "start": "tsx src/server.ts",
+    "test": "tsx --test \"test/**/*.test.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "^4.3.0",
+    "tsx": "^4.23.13"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.4",
+    "typescript": "^5.9.3",
+    "yaml": "^2.9.1"
+  }
+}
