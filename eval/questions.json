@@ -1,0 +1,25 @@
+{
+  "note": "Written before the first retrieval run. expected_path is relative to corpus/. Answerable questions were checked by hand against that page; unanswerable ones were checked with grep to be absent from corpus/.",
+  "questions": [
+    { "id": "a01", "answerable": true, "question": "What happens to scheduled workflows in a public repository when there is no repository activity for 60 days?", "expected_path": "reference/workflows-and-actions/events-that-trigger-workflows.md" },
+    { "id": "a02", "answerable": true, "question": "How long does GitHub keep a dependency cache entry that has not been accessed?", "expected_path": "reference/workflows-and-actions/dependency-caching.md" },
+    { "id": "a03", "answerable": true, "question": "What is the maximum size of a GitHub Actions secret?", "expected_path": "reference/security/secrets.md" },
+    { "id": "a04", "answerable": true, "question": "Which keywords in a commit message skip a workflow run?", "expected_path": "how-tos/manage-workflow-runs/skip-workflow-runs.md" },
+    { "id": "a05", "answerable": true, "question": "How do I cancel an in-progress run when a new run starts in the same concurrency group?", "expected_path": "how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency.md" },
+    { "id": "a06", "answerable": true, "question": "How can I limit how many matrix jobs run at the same time?", "expected_path": "how-tos/write-workflows/choose-what-workflows-do/run-job-variations.md" },
+    { "id": "a07", "answerable": true, "question": "How do I pass an output from one job to another job?", "expected_path": "how-tos/write-workflows/choose-what-workflows-do/pass-job-outputs.md" },
+    { "id": "a08", "answerable": true, "question": "For how long can the GITHUB_TOKEN be refreshed on a self-hosted runner?", "expected_path": "concepts/security/github_token.md" },
+    { "id": "a09", "answerable": true, "question": "How do I run a workflow manually with the GitHub CLI?", "expected_path": "how-tos/manage-workflow-runs/manually-run-a-workflow.md" },
+    { "id": "a10", "answerable": true, "question": "How do I delete a cache entry from my repository?", "expected_path": "how-tos/manage-workflow-runs/manage-caches.md" },
+    { "id": "a11", "answerable": true, "question": "How do I cancel a workflow run that is in progress?", "expected_path": "how-tos/manage-workflow-runs/cancel-a-workflow-run.md" },
+    { "id": "a12", "answerable": true, "question": "What are the components of GitHub Actions such as workflows, events, jobs, actions and runners?", "expected_path": "get-started/understand-github-actions.md" },
+    { "id": "a13", "answerable": true, "question": "How do I create a secret for an environment?", "expected_path": "how-tos/write-workflows/choose-what-workflows-do/use-secrets.md" },
+    { "id": "a14", "answerable": true, "question": "What steps does GitHub take when a workflow run is canceled?", "expected_path": "reference/workflows-and-actions/workflow-cancellation.md" },
+    { "id": "a15", "answerable": true, "question": "What is the difference between artifacts and dependency caching?", "expected_path": "concepts/workflows-and-actions/workflow-artifacts.md" },
+    { "id": "u01", "answerable": false, "question": "What is the recipe for a classic margherita pizza?" },
+    { "id": "u02", "answerable": false, "question": "Who won the FIFA World Cup in 2022?" },
+    { "id": "u03", "answerable": false, "question": "How do I enable two-factor authentication on my GitHub account?" },
+    { "id": "u04", "answerable": false, "question": "How do I configure Dependabot version updates for npm packages?" },
+    { "id": "u05", "answerable": false, "question": "How much does GitHub Copilot Business cost per user per month?" }
+  ]
+}
