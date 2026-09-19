@@ -139,6 +139,12 @@ container downloaded the model and answered `POST /ask` from inside the n8n cont
 (`telegramTrigger` 1.2, `httpRequest` 4.2, `if` 2.2, `telegram` 1.2) exist in that n8n image.
 The workflow was **not** run end to end with a real Telegram bot.
 
+## Zapier
+
+A live Zap on the Zapier Free plan emails the maintainer on every new commit to this repository
+(RSS by Zapier → Email by Zapier). Setup, screenshot and the reason it uses RSS instead of a webhook:
+[zapier/README.md](zapier/README.md).
+
 ## What this demo does not do
 
 - **Small, fixed corpus.** 27 pages of GitHub Actions docs from one github/docs commit, rendered for the
