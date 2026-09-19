@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      # Model files land here; cached below so CI does not re-download ~90 MB every run.
+      HF_CACHE_DIR: ${{ github.workspace }}/.cache/huggingface
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - name: Cache Hugging Face model
+        uses: actions/cache@v6
+        with:
+          path: .cache/huggingface
+          key: hf-Xenova-all-MiniLM-L6-v2-fp32-v1
+      - run: npm ci
+      - run: npm test
+      # Runs without any API key and fails if hit@3 or refusal accuracy drops below 0.8.
+      - run: npm run eval
