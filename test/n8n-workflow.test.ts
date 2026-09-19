@@ -28,6 +28,10 @@ const KNOWN_TYPES = new Set([
   'n8n-nodes-base.telegram',
 ]);
 
+test('workflow has an id (n8n import:workflow fails with a NOT NULL error without one)', () => {
+  assert.match((wf as Workflow & { id?: string }).id ?? '', /^[A-Za-z0-9]{16}$/);
+});
+
 test('every node has a unique name and a known n8n type', () => {
   const names = wf.nodes.map((n) => n.name);
   assert.equal(new Set(names).size, names.length);

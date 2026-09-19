@@ -1,0 +1,11 @@
+node_modules
+.cache
+.git
+.github
+.env
+corpus
+eval
+test
+scripts
+n8n
+*.md

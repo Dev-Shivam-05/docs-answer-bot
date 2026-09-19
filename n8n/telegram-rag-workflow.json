@@ -1,0 +1,128 @@
+{
+  "id": "DocsAnswerBot001",
+  "name": "Docs answer bot (Telegram)",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": ["message"],
+        "additionalFields": {}
+      },
+      "id": "e03dade1-b5c5-4112-8e49-988326c2831c",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [0, 0],
+      "webhookId": "5e6893ab-b576-4e60-8476-1bc728ffa4f9",
+      "credentials": {
+        "telegramApi": {
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.DOCS_BOT_URL }}/ask",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ question: ($json.message.text || '').slice(0, 500) }) }}",
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "2c8da4da-02a1-4d1f-9be1-35def88ab8b9",
+      "name": "Ask docs bot",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [220, 0]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "05342b7b-b3d4-4b4b-9a10-6a22406d9dde",
+              "leftValue": "={{ $json.grounded }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "4bd3bc1f-8690-4033-b445-aad2553c5221",
+      "name": "Grounded?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [440, 0]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.answer }}\n\nSources:\n{{ [...new Set($json.sources.map(s => '- ' + s.title))].join('\\n') }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "ea68bdbe-5884-4f3b-a679-e178991d56ec",
+      "name": "Send answer",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [660, -100],
+      "credentials": {
+        "telegramApi": {
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "Not in the documents.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "b1f0c2a4-6d3e-4f7a-9c21-8e5d4a7b3f10",
+      "name": "Send refusal",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [660, 100],
+      "credentials": {
+        "telegramApi": {
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [[{ "node": "Ask docs bot", "type": "main", "index": 0 }]]
+    },
+    "Ask docs bot": {
+      "main": [[{ "node": "Grounded?", "type": "main", "index": 0 }]]
+    },
+    "Grounded?": {
+      "main": [
+        [{ "node": "Send answer", "type": "main", "index": 0 }],
+        [{ "node": "Send refusal", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "active": false
+}

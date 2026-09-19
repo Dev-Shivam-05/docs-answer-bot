@@ -1,0 +1,43 @@
+# Runs the docs-answer-bot API and n8n side by side.
+#   docker compose up -d --build
+#   n8n UI: http://localhost:5678   bot: http://localhost:8787/health
+services:
+  bot:
+    build: .
+    environment:
+      PORT: "8787"
+      # Optional; leave unset for the offline extractive mode.
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-}
+    ports:
+      # Host ports can be changed if 8787/5678 are already taken on your machine.
+      - "${BOT_PORT:-8787}:8787"
+    volumes:
+      # Keeps the downloaded embedding model between restarts.
+      - hf-cache:/app/.cache
+    restart: unless-stopped
+
+  n8n:
+    # Pinned so the workflow import is reproducible; bump deliberately.
+    image: docker.n8n.io/n8nio/n8n:2.39.8
+    environment:
+      # The workflow reads the bot URL from this variable ({{ $env.DOCS_BOT_URL }}).
+      DOCS_BOT_URL: http://bot:8787
+      # Needed for $env in expressions. Security note: this lets any workflow read n8n's
+      # environment, so do not put other secrets in this container's environment.
+      N8N_BLOCK_ENV_ACCESS_IN_NODE: "false"
+      # Telegram only delivers updates to a public HTTPS URL. Set this to your tunnel or domain.
+      N8N_WEBHOOK_URL: ${N8N_WEBHOOK_URL:-}
+      GENERIC_TIMEZONE: ${GENERIC_TIMEZONE:-UTC}
+    ports:
+      - "${N8N_PORT:-5678}:5678"
+    volumes:
+      - n8n-data:/home/node/.n8n
+      - ./n8n:/workflows:ro
+    depends_on:
+      - bot
+    restart: unless-stopped
+
+volumes:
+  hf-cache:
+  n8n-data:
